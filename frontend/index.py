@@ -5,12 +5,12 @@ from nicegui import ui
 from backend.types import Message
 from backend.orchestrator import Agent
 
-ASSISTANT_NAME: str = "Jaxon"
+ASSISTANT_NAME: str = "JaySO"
 
 agent: Agent = Agent()
 convo_thread: list[Message] = [
     Message(
-        content=f"Hello, I am {ASSISTANT_NAME}. How can I help you today?",
+        content=f"{ASSISTANT_NAME} is ready for service.",
         role="assistant",
         timestamp=datetime.now(),
     )
@@ -95,11 +95,10 @@ async def index() -> None:
 
     with ui.header().classes("bg-accent"):
         with ui.row().classes("w-full justify-between items-center"):
-            ui.icon("school")
-            ui.label("Jacksonville Public Library")
+            ui.icon("shield").classes("text-3xl")
+            ui.label("JSO Property Room")
             ui.space()
-            ui.icon("menu")
-            ui.label("User's Name")
+            ui.icon("menu").classes("text-3xl")
 
     # Chat window
     chat_window = ui.scroll_area().classes(
@@ -117,7 +116,7 @@ async def index() -> None:
         ):
             # TODO: Add autocomplete for suggested topics
             input_element: ui.input = (
-                ui.input(placeholder="Chat with Jaxon...")
+                ui.input(placeholder=f"Chat with {ASSISTANT_NAME}...")
                 .classes("flex-1 bg-secondary rounded-lg inset-5 px-2")
                 .props("borderless")
                 .on(

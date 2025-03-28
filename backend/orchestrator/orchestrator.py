@@ -125,10 +125,16 @@ class Agent:
         Returns:
             Response: The response from the agent.
         """
+        tools: list[dict] = self.tools
+        tools.append({
+            "type": "file_search",
+            "vector_store_ids": [getenv("VECTOR_STORE_ID")],
+        })
+
         return await self.client.responses.create(
             model=self.model_name,
             instructions=self.prompt,
-            tools=self.tools,
+            tools=tools,
             input=messages,
         )
 
