@@ -1,12 +1,13 @@
 from os import getenv
 from datetime import datetime
-from json import loads
+import json
 
 from openai import AsyncOpenAI
 from openai.types.responses.response import Response
 from dotenv import load_dotenv
 
-from backend.orchestrator.types import Message
+from backend.types import Message
+from backend.tools import locate_book, place_on_hold, renew_book
 
 
 def get_client() -> AsyncOpenAI:
@@ -48,7 +49,7 @@ def load_tools() -> list[dict]:
         a tool configuration.
     """
     with open(file="backend/orchestrator/tools.json", mode="r", encoding="utf-8") as f:
-        return loads(f.read())
+        return json.loads(f.read())
 
 
 def serialize_messages(messages: list[Message]) -> list[dict]:
@@ -67,6 +68,10 @@ def serialize_messages(messages: list[Message]) -> list[dict]:
 
 
 class Agent:
+    """
+    Orchestrates the interaction between the agent and the OpenAI API.
+    """
+
     client: AsyncOpenAI
     prompt: str
     tools: list[dict]
@@ -144,12 +149,18 @@ class Agent:
         function_call: dict[str, str] = response.output[0]
 
         # Parse arguments into a keyword dict
-        args: dict[str, str] = loads(function_call.arguments)
+        args: dict[str, str] = json.loads(function_call.arguments)
         function_name: str = function_call.name
 
         # Execute function
         result: str = ""
         match function_name:
+            case "locate_book":
+                result = json.dumps(locate_book(args["book_title"]))
+            case "place_on_hold":
+                result = json.dumps(place_on_hold(args["book_title"]))
+            case "renew_book":
+                result = json.dumps(renew_book(args["book_title"]))
             case _:
                 result = "Function not found"
 
