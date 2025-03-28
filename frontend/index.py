@@ -1,16 +1,17 @@
-from asyncio import sleep
 from datetime import datetime
 
 from nicegui import ui
 
-from backend.orchestrator.types import Message
+from backend.orchestrator import Message
+from backend.orchestrator.orchestrator import Agent
 
 ASSISTANT_NAME: str = "Jaxon"
 
+agent: Agent = Agent()
 convo_thread: list[Message] = [
     Message(
         content=f"Hello, I am {ASSISTANT_NAME}. How can I help you today?",
-        role=ASSISTANT_NAME,
+        role="assistant",
         timestamp=datetime.now(),
     )
 ]
@@ -66,12 +67,7 @@ async def receive_response(user_message: Message) -> Message:
     Returns:
         Message: The agent response.
     """
-    await sleep(1)
-    return Message(
-        content=f"Echo: {user_message.content}",
-        role=ASSISTANT_NAME,
-        timestamp=datetime.now(),
-    )
+    return await agent.chat(convo_thread)
 
 
 async def display_message(message: Message, chat_window: ui.scroll_area) -> None:
@@ -84,10 +80,10 @@ async def display_message(message: Message, chat_window: ui.scroll_area) -> None
     """
     with chat_window:
         with ui.card().classes("w-full flex-col flex-nowrap items-start").classes(
-            "bg-accent" if message.role == ASSISTANT_NAME else "bg-primary"
+            "bg-accent" if message.role == "assistant" else "bg-primary"
         ):
             ui.label(
-                f"{message.role.capitalize()} | {message.timestamp.strftime('%I:%M:%S %p')}"
+                f"{message.role.capitalize() if message.role == 'user' else ASSISTANT_NAME} | {message.timestamp.strftime('%I:%M:%S %p')}"
             )
             ui.separator().classes("-my-4")
             ui.markdown(message.content).classes("text-left")
