@@ -2,8 +2,8 @@ from datetime import datetime
 
 from nicegui import ui
 
-from backend.orchestrator import Message
-from backend.orchestrator.orchestrator import Agent
+from backend.types import Message
+from backend.orchestrator import Agent
 
 ASSISTANT_NAME: str = "Jaxon"
 
@@ -42,7 +42,7 @@ async def trigger_chat_turn(
     await display_message(user_message, chat_window)
 
     # Get agent response
-    response: Message = await receive_response(user_message)
+    response: Message = await receive_response()
 
     # Add agent response to thread
     convo_thread.append(response)
@@ -57,12 +57,9 @@ async def trigger_chat_turn(
     chat_window.scroll_to(percent=1, duration=0.5)
 
 
-async def receive_response(user_message: Message) -> Message:
+async def receive_response() -> Message:
     """
     Receive a response from the agent.
-
-    Args:
-        user_message (Message): The user message.
 
     Returns:
         Message: The agent response.
@@ -118,6 +115,7 @@ async def index() -> None:
         with ui.card().classes(
             "w-full h-full flex-row flex-nowrap items-center bg-primary"
         ):
+            # TODO: Add autocomplete for suggested topics
             input_element: ui.input = (
                 ui.input(placeholder="Chat with Jaxon...")
                 .classes("flex-1 bg-secondary rounded-lg inset-5 px-2")

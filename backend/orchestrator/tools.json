@@ -1,0 +1,47 @@
+[
+    {
+        "type": "function",
+        "name": "place_on_hold",
+        "description": "Place a book on hold.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "book_title": {
+                    "type": "string",
+                    "description": "The title of the book."
+                }
+            },
+            "required": ["book_title"]
+        }
+    },
+    {
+        "type": "function",
+        "name": "renew_book",
+        "description": "Renew a book.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "book_title": {
+                    "type": "string",
+                    "description": "The title of the book."
+                }
+            },
+            "required": ["book_title"]
+        }
+    },
+    {
+        "type": "function",
+        "name": "locate_book",
+        "description": "Locate the branch where a book is available for checkout.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "book_title": {
+                    "type": "string",
+                    "description": "The title of the book."
+                }
+            },
+            "required": ["book_title"]
+        }
+    }
+]
