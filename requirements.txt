@@ -6,6 +6,8 @@ uvicorn
 # AI
 python-dotenv
 openai
+openai[voice_helpers]
+numpy
 
 # Utils
 mypy

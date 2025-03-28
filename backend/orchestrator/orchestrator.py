@@ -4,6 +4,7 @@ import json
 
 from openai import AsyncOpenAI
 from openai.types.responses.response import Response
+from openai.helpers import LocalAudioPlayer
 from dotenv import load_dotenv
 
 from backend.types import Message
@@ -108,11 +109,23 @@ class Agent:
             else:
                 is_finished = True
 
+        await self.handle_speach(response.output_text)
+
         return Message(
             content=response.output_text,
             role="assistant",
             timestamp=datetime.now(),
         )
+
+    async def handle_speach(self, text: str) -> None:
+        async with self.client.audio.speech.with_streaming_response.create(
+            model="gpt-4o-mini-tts",
+            voice="onyx",
+            input=text,
+            instructions="Speak in a calming professional tone.",
+            response_format="pcm",
+        ) as response:
+            await LocalAudioPlayer().play(response)
 
     async def handle_chat(self, messages: list[dict[str, str]]) -> Response:
         """
@@ -125,11 +138,11 @@ class Agent:
         Returns:
             Response: The response from the agent.
         """
-        tools: list[dict] = self.tools
-        tools.append({
+        # tools: list[dict] = self.tools
+        tools = [{
             "type": "file_search",
             "vector_store_ids": [getenv("VECTOR_STORE_ID")],
-        })
+        }]
 
         return await self.client.responses.create(
             model=self.model_name,
