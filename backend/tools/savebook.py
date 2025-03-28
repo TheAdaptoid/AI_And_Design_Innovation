@@ -1,4 +1,9 @@
+import dotenv
+import os
 from openai import OpenAI
+
+dotenv.load_dotenv()
+api_key = os.getenv("OPENAI_API_KEY")
 
 client = OpenAI()
 
@@ -24,6 +29,8 @@ tools = [{
             "year": {
                 "type": "integer",
                 "description": "The year the book was published. e.g. 1925",
+                "minimum": 868,
+                "maximum": 2100,
             },
             "description": {
                 "type": "string",
@@ -38,10 +45,12 @@ tools = [{
     }
 }]
 
-response = client.chat.completions.create(
+response = client.responses.create(
     model="gpt-4o",
-    input=[{"role": "user", "content": "Save a book to the users favorites."}],
+    input=[{"role": "user", "content": "Save a book to my favorites."}],
     tools=tools,
 )
 
 print(response.output)
+
+
