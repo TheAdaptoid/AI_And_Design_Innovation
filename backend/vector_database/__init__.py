@@ -5,7 +5,7 @@ import os
 dotenv.load_dotenv()
 
 api_key = os.getenv("OPENAI_API_KEY")
-vector_store_id = os.getenv("ECTOR_STORE_ID")
+vector_store_id = os.getenv("VECTOR_STORE_ID")
 pdf_folder = r"C:\Users\aryan\.vscode\AI_And_Design_Innovation\backend\vector_database\pdf_files"
 
 client = OpenAI()
