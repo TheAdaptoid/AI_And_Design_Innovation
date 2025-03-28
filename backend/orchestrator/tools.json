@@ -1,0 +1,68 @@
+[
+    {
+        "type": "function",
+        "name": "check_out_book",
+        "description": "Check out a book from the library.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "book_title": {
+                    "type": "string",
+                    "description": "The title of the book to save."
+                },
+                "required": ["book_title"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "name": "renew_book",
+        "description": "Renew a book.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "book_title": {
+                    "type": "string",
+                    "description": "The title of the book to save."
+                },
+                "required": ["book_title"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "name": "locate_book",
+        "description": "Locate the branch where a book is available for checkout.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "book_title": {
+                    "type": "string",
+                    "description": "The title of the book to save."
+                },
+                "required": ["book_title"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "name": "save_to_favorites",
+        "description": "Save a book to the user's favorites.",
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "book_title": {
+                    "type": "string",
+                    "description": "The title of the book to save."
+                },
+                "required": ["book_title"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "name": "get_favorites",
+        "description": "Get the user's saved favorites.",
+        "parameters": {}
+    }
+]
