@@ -1,0 +1,15 @@
+# UI
+nicegui
+fastapi
+uvicorn
+
+# AI
+python-dotenv
+openai
+
+# Utils
+mypy
+pylint
+black
+pytest
+pytest-cov
